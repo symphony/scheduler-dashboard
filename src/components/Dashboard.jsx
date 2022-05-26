@@ -34,22 +34,29 @@ export default class Dashboard extends Component {
     focused: null,
   };
 
+  // handlers
   selectPanel = (id) => {
     this.setState({ focused: this.state.focused ? null : id });
   };
 
   render() {
+    // set css classes
     const dashboardClasses = classnames("dashboard", {
       "dashboard--focused": this.state.focused
     });
+
+    // build panel list
     const panels = (this.state.focused ? data.filter((panel) => this.state.focused === panel.id) : data)
       .map((panel) => (
-        <Panel key={panel.id}
+        <Panel
+          key={panel.id}
+          label={panel.label}
+          value={panel.value}
           onSelect={() => { this.selectPanel(panel.id); }}
-          {...panel}
         />
       ));
 
+    // build component
     return (this.state.loading
       ? <Loading />
       : <main className={dashboardClasses}>{panels}</main>);
