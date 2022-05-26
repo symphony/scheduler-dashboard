@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import Loading from './Loading';
+import Panel from './Panel';
 
 // fake data
 const data = [
@@ -25,8 +26,9 @@ const data = [
     value: "2.3"
   }
 ];
+const panels = data.map((item) => <Panel key={item.id} {...item} />);
 
-
+// = main component =
 export default class Dashboard extends Component {
   state = {
     loading: this.props.loading || false,
@@ -37,6 +39,6 @@ export default class Dashboard extends Component {
 
     return (this.state.loading
       ? <Loading />
-      : <main className={dashboardClasses} />);
-  }
+      : <main className={dashboardClasses}>{panels}</main>);
+  };
 };
