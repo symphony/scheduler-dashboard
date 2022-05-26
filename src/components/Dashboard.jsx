@@ -26,16 +26,24 @@ const data = [
     value: "2.3"
   }
 ];
-const panels = data.map((item) => <Panel key={item.id} {...item} />);
 
 // = main component =
 export default class Dashboard extends Component {
   state = {
     loading: this.props.loading || false,
+    focused: null,
+  };
+
+  selectPanel = (id) => {
+    this.setState({ focused: this.state.focused ? null : id });
   };
 
   render() {
-    const dashboardClasses = classnames("dashboard");
+    const dashboardClasses = classnames("dashboard", {
+      "dashboard--focused": this.state.focused
+    });
+    const panels = (this.state.focused ? data.filter((panel) => this.state.focused === panel.id) : data)
+      .map((panel) => <Panel key={panel.id} {...panel} onSelect={this.selectPanel} />);
 
     return (this.state.loading
       ? <Loading />
