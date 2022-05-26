@@ -43,7 +43,12 @@ export default class Dashboard extends Component {
       "dashboard--focused": this.state.focused
     });
     const panels = (this.state.focused ? data.filter((panel) => this.state.focused === panel.id) : data)
-      .map((panel) => <Panel key={panel.id} {...panel} onSelect={this.selectPanel} />);
+      .map((panel) => (
+        <Panel key={panel.id}
+          onSelect={() => { this.selectPanel(panel.id); }}
+          {...panel}
+        />
+      ));
 
     return (this.state.loading
       ? <Loading />
